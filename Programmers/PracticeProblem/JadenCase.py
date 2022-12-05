@@ -1,10 +1,19 @@
-def solution(s):
+def solution(s): 
     answer = ''
     
-    for i in s.split(' '):
-        lowerstring = list(i.lower())
-        lowerstring[0] = lowerstring[0].upper()
-        
-        answer += ''.join(lowerstring) + ' '
+    s = list(s)
     
-    return answer.strip()
+    for i in range(len(s)):
+        if i == 0:
+            answer += s[i].upper()
+            continue
+            
+        if s[i] == ' ':
+            answer += ' '
+        else:
+            if s[i-1] == ' ':
+                answer += s[i].upper()
+            else:
+                answer += s[i].lower()
+    
+    return answer
