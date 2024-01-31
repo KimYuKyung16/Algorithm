@@ -6,12 +6,14 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static BufferedReader br;
+	static StringBuilder sb;
 	static StringTokenizer st;
 	static int[] visited;
 	static int n, m;
 
 	public static void main(String[] args) throws IOException {
 		br = new BufferedReader(new InputStreamReader(System.in));
+		sb = new StringBuilder();
 		st = new StringTokenizer(br.readLine());
 
 		n = Integer.parseInt(st.nextToken()); // n까지의 수
@@ -23,11 +25,12 @@ public class Main {
 			dfs(1, "" + i);
 			visited[i] = 0;
 		}
+		System.out.println(sb);
 	}
 
 	public static void dfs(int cnt, String str) {
 		if (cnt == m) {
-			System.out.println(str);
+			sb.append(str + "\n");
 			return;
 		}
 
