@@ -6,11 +6,13 @@ import java.util.StringTokenizer;
 public class Main {
 	static BufferedReader br;
 	static StringTokenizer st;
+	static StringBuilder sb;
 	static int[] nums;
 	static int[] sums; // 누적합 구하기용
 
 	public static void main(String[] args) throws IOException {
 		br = new BufferedReader(new InputStreamReader(System.in));
+		sb = new StringBuilder();
 		st = new StringTokenizer(br.readLine());
 		int n = Integer.parseInt(st.nextToken());
 		int m = Integer.parseInt(st.nextToken());
@@ -32,10 +34,12 @@ public class Main {
 
 		for (int k = 0; k < m; k++) {
 			st = new StringTokenizer(br.readLine());
-			int i = Integer.parseInt(st.nextToken()); // 1
-			int j = Integer.parseInt(st.nextToken()); // 3
+			int i = Integer.parseInt(st.nextToken());
+			int j = Integer.parseInt(st.nextToken());
 
-			System.out.println(sums[j] - sums[i - 1]);
+			sb.append(sums[j] - sums[i - 1] + "\n");
 		}
+
+		System.out.println(sb);
 	}
 }
