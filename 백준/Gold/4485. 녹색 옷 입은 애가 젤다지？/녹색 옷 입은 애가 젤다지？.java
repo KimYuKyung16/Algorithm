@@ -49,7 +49,6 @@ public class Main {
 	public static void dijk(int[][] map, boolean[][] visited, int[][] sum, PriorityQueue<int[]> pq, int n) {
 		while (!pq.isEmpty()) {
 			int[] current = pq.poll();
-			visited[current[1]][current[2]] = true;
 
 			for (int i = 0; i < 4; i++) {
 				int ny = current[1] + dy[i];
@@ -62,6 +61,7 @@ public class Main {
 
 				sum[ny][nx] = Math.min(sum[ny][nx], current[0] + map[ny][nx]);
 				pq.add(new int[] { sum[ny][nx], ny, nx });
+				visited[ny][nx] = true;
 			}
 		}
 	}
