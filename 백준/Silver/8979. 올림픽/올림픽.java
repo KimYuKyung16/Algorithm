@@ -39,12 +39,20 @@ public class Main {
 		}
 
 		int grade = 0;
+		int middle = 1;
 		int[] pre = new int[] { Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE };
 		while (!pq.isEmpty()) {
 			int[] c = pq.poll();
 			if (c[0] == pre[0] && c[1] == pre[1] && c[2] == pre[2]) {
+				middle++;
 			} else {
-				grade++;
+				if (middle > 1) {
+					grade += middle;
+					middle = 1;
+				} else {
+					grade++;
+				}
+
 			}
 
 			if (c[3] == k) {
