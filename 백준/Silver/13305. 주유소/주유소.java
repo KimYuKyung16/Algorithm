@@ -11,7 +11,7 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         ArrayList<Integer> roads = new ArrayList<>();
         ArrayList<Integer> prices = new ArrayList<>();
-        int answer = 0;
+        long answer = 0;
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N - 1; i++) {
@@ -23,7 +23,7 @@ public class Main {
         }
 
         int current_price = prices.get(0);
-        int count = 0;
+        long count = 0;
         for (int i=0; i<roads.size(); i++) {
             if (prices.get(i) < current_price) {
                 answer += (count * current_price);
