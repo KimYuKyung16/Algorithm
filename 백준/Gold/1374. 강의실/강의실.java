@@ -4,7 +4,6 @@ import java.util.*;
 public class Main {
   static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
   static StringTokenizer st;
-    
   public static void main(String[] args) throws Exception{
     int N = Integer.parseInt(br.readLine());
     ArrayList<int[]> lecture_list = new ArrayList<>();
@@ -23,19 +22,16 @@ public class Main {
 
     for (int i=0; i<N; i++) {
       if (pq.isEmpty()) {
-        pq.add(lecture_list.get(0));
-        lecture_list.remove(0);
+        pq.add(lecture_list.get(i));
       } else {
         int[] first = pq.peek();
-        int[] current = lecture_list.get(0);
+        int[] current = lecture_list.get(i);
 
         if (first[1] <= current[0]) { // 강의실 이용 가능
           pq.poll();
-          pq.add(lecture_list.get(0));
-          lecture_list.remove(0);
+          pq.add(lecture_list.get(i));
         } else {
-          pq.add(lecture_list.get(0));
-          lecture_list.remove(0);
+          pq.add(lecture_list.get(i));
         }
       }
 
