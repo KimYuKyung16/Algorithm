@@ -7,8 +7,6 @@ class Solution {
         HashMap<String, Integer> group1 = new HashMap<>();
         HashMap<String, Integer> group2 = new HashMap<>();
         
-        char[] eng = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g','h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w','x', 'y','z'};
-        
         getHashMap(str1, group1);
         getHashMap(str2, group2);
         
