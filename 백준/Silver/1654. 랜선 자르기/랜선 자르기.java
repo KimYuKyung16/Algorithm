@@ -34,7 +34,6 @@ public class Main {
   }
   // 랜선을 N개 이상 만들 수 있나?
   public static boolean is_possible(long length) {
-    if (length == 0) return false;
     long sum = 0;
     for (int line : lines) {
       long count = line / length;
