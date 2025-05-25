@@ -4,7 +4,7 @@ class Solution {
         int[] answer = new int[s.length()];
         Map<Character, Integer> map = new HashMap<>();
         for (int i=0; i<s.length(); i++) {
-            if (!map.containsKey(s.charAt(i))) {
+            if (map.get(s.charAt(i)) == null) {
                 answer[i] = -1;
             } else {
                 answer[i] = i - map.get(s.charAt(i));
