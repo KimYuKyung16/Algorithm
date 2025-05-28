@@ -7,7 +7,7 @@ class Solution {
             while(idx < index) {
                 ++c;
                 if (c > 'z') c -= 26;
-                if (!skip.contains("" + (char)c)) idx++;
+                if (!skip.contains(String.valueOf(c))) idx++;
             }
             answer.append(c);
         }
