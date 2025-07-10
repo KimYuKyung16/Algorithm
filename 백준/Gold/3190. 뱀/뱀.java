@@ -2,80 +2,88 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	static BufferedReader br;
-	static StringTokenizer st;
-	static int[][] board;
-	static int[] dx = {1, 0, -1, 0}; // 오, 아, 왼, 위
-	static int[] dy = {0, 1, 0, -1};
-	static int direction = 0; // 뱀이 이동하고 있는 방향
-	static int time = 0; // 경과 시간
-	static int cx = 0; // 현재 x좌표
-	static int cy = 0; // 현재 y좌표
-	static HashMap<Integer, String> dirInfo; // 시간에 따른 변화 map
-	
-	public static void main(String[] args) throws IOException {
-		br = new BufferedReader(new InputStreamReader(System.in));
-		
-		int n = Integer.parseInt(br.readLine()); // 보드의 크기
-		int k = Integer.parseInt(br.readLine()); // 사과의 개수
-		board = new int[n][n];
-		
-		for (int i=0; i<k; i++) { // 사과 배치
-			st = new StringTokenizer(br.readLine());
-			int y = Integer.parseInt(st.nextToken())-1;  
-			int x = Integer.parseInt(st.nextToken())-1;
-			board[y][x] = 2;
-		}
-		
-		int l = Integer.parseInt(br.readLine()); // 방향 전환 정보 개수
-		// 방향 전환 값 저장
-		dirInfo = new HashMap<Integer, String>();
-		for (int i=0; i<l; i++) {
-			st = new StringTokenizer(br.readLine());
-			int x = Integer.parseInt(st.nextToken());
-			String rotation = st.nextToken();
-			
-			dirInfo.put(x, rotation);
-		}	
-		
-		Deque<int[]> snake = new ArrayDeque<>(); // 뱀
-		snake.push(new int[] {0, 0});
-		
-		while (true) {
-			time++;
-			cy += dy[direction];
-			cx += dx[direction];
-			
-			if (cx < 0 || cx >= n || cy < 0 || cy >= n) break;
-			
-			if (board[cy][cx] == 0) { // 사과 없는 경우
-				board[cy][cx] = 1;
-				snake.addLast(new int[] {cy, cx});
-				int[] firstVal = snake.getFirst();
-				board[firstVal[0]][firstVal[1]] = 0;
-				snake.removeFirst();
-				if (dirInfo.containsKey(time)) {
-					rotate(dirInfo.get(time));
-				}
-			} else if (board[cy][cx] == 2) { // 사과 있는 경우
-				board[cy][cx] = 1;
-				snake.addLast(new int[] {cy, cx});
-				if (dirInfo.containsKey(time)) {
-					rotate(dirInfo.get(time));
-				}
-			} else break;
-		}
-		
-		System.out.println(time);
-	}
-	
-	// 뱀 방향 전환
-	public static void rotate(String rotation) {
-		if (rotation.equals("L")) { // 왼쪽 회전
-			 direction = (direction - 1 + 4) % 4;
-		} else { // 오른쪽 회전
-			 direction = (direction + 1 + 4) % 4;
-		}
-	}
-	
+  static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  static StringTokenizer st;
+  static int[] dy = {-1,0,1,0};
+  static int[] dx = {0,1,0,-1};
+  static int sd = 1; // 오른쪽 방향부터 시작
+
+  public static void main(String[] args) throws Exception {
+    int time = 1;
+    int N = Integer.parseInt(br.readLine());
+    int K = Integer.parseInt(br.readLine());
+    int[][] map = new int[N][N];
+
+    Deque<Node> snake = new LinkedList<>();
+    snake.add(new Node(0,0));
+    map[0][0] = 1;
+
+    for (int i=0; i<K; i++) {
+      st = new StringTokenizer(br.readLine());
+      int y = Integer.parseInt(st.nextToken())-1;
+      int x = Integer.parseInt(st.nextToken())-1;
+      map[y][x] = 2;
+    }
+
+    int L = Integer.parseInt(br.readLine());
+    Map<Integer, String> info = new HashMap<>();
+    for (int i=0; i<L; i++) {
+      st = new StringTokenizer(br.readLine());
+      int X = Integer.parseInt(st.nextToken()); // x초 뒤에 방향 전환
+      String C = st.nextToken(); // L은 왼, D는 오 90도 회전
+      info.put(X, C);
+    }
+
+    while(true) {
+      Node head = snake.peekFirst();
+
+      int hny = head.y + dy[sd];
+      int hnx = head.x + dx[sd];
+
+      if (hny < 0 || hny >= N || hnx < 0 || hnx >= N) break; // 벽에 부딪힘.
+      if (map[hny][hnx] == 1) break; // 자기자신과 부딪힘.  
+
+      snake.addFirst(new Node(hny, hnx));
+
+      if (map[hny][hnx] == 2) { 
+        // 1.사과가 있는 경우
+        map[hny][hnx] = 1;
+      } else { 
+        // 2. 사과가 없는 경우
+        map[hny][hnx] = 1;
+        Node tail = snake.peekLast();
+        map[tail.y][tail.x] = 0;
+        snake.removeLast();
+      }
+
+      // 방향 변환 여부?
+      if (info.get(time) != null) {
+        change_direction(info.get(time));
+      }
+
+      time++;
+    }
+  
+    System.out.println(time);
+  }
+
+  public static void change_direction(String c) {
+    if (c.equals("L")) {
+      sd = (sd + 3) % 4;
+    } else if (c.equals("D")) {
+      sd = (sd + 1) % 4;
+    }
+  } 
+
+  static class Node {
+    int y;
+    int x;
+
+    Node(int y, int x) {
+      this.y = y;
+      this.x = x;
+    }
+  }
+
 }
+
