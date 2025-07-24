@@ -1,51 +1,37 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static StringTokenizer st;
-	static String S, T;
-	static int answer = 0;
+  static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  static StringTokenizer st;
+  static String S;
+  static int answer = 0;
+  
+  public static void main(String[] args) throws Exception {
+    S = br.readLine();
+    StringBuilder T = new StringBuilder(br.readLine());
+    dfs(T);
+    System.out.println(answer);
+  }
 
-	public static void main(String[] args) throws Exception {
-		S = br.readLine();
-		T = br.readLine();
+  public static void dfs(StringBuilder sb) {
+    if (answer == 1 || sb.length() == 0) return;
+    if (sb.toString().equals(S)) {
+      answer = 1;
+      return;
+    }
 
-		if (S.equals(T)) {
-			answer = 1;
-			return;
-		}
+    if (sb.charAt(sb.length()-1) == 'A') {
+      StringBuilder nsb = new StringBuilder(sb);
+      nsb.deleteCharAt(nsb.length()-1);
+      dfs(nsb);
+    } 
 
-		dfs(T);
-		System.out.println(answer);
-	}
-
-	public static void dfs(String str) {
-		if (str.length() == S.length()) {
-			if (str.equals(S)) {
-				answer = 1;
-				return;
-			}
-		}
-		if (str.length() <= S.length()) {
-			return;
-		}
-		if (str.charAt(str.length() - 1) == 'A') {
-			dfs(str.substring(0, str.length() - 1));
-		}
-		if (str.charAt(0) == 'B') {
-			dfs(reverse_string(str).substring(0, str.length() - 1));
-		}
-	}
-
-	public static String reverse_string(String str) {
-		String reversed = "";
-
-		for (int i = str.length() - 1; i >= 0; i--) {
-			reversed += str.charAt(i);
-		}
-
-		return reversed;
-	}
+    sb.reverse();
+    if (sb.charAt(sb.length()-1) == 'B') {
+      StringBuilder nsb = new StringBuilder(sb);
+      nsb.deleteCharAt(nsb.length()-1);
+      dfs(nsb);
+    }
+  }
 }
