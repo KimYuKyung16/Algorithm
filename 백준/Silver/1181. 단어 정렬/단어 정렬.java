@@ -2,31 +2,28 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static void main(String args[]) throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int num = Integer.parseInt(br.readLine());
-	   	String[] arr = new String[num];
-	   	 	
-        for(int i =  0 ; i < num ; i++) {
-            arr[i] = br.readLine();
-        }
-	   	 	
-        Arrays.sort(arr, new Comparator<String>() {
-            public int compare(String s1, String s2) {
-                if(s1.length() == s2.length()) {
-                    return s1.compareTo(s2);
-                }else {
-                    return s1.length() - s2.length();
-                }
-            }
-	   	});
-	   
-	   	System.out.println(arr[0]);
-	   	for(int i = 1; i < num; i++) {
-	   	    if (!arr[i].equals(arr[i - 1])) {
-				System.out.println(arr[i]);
-			}
-		}
-	}
+  static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  static StringTokenizer st;
+
+  public static void main(String[] args) throws Exception {
+    int N = Integer.parseInt(br.readLine());
+    Set<String> set = new TreeSet<>((a,b) -> {
+      if (a.length() == b.length()) {
+        return a.compareTo(b);
+      } else {
+        return Integer.compare(a.length(), b.length());
+      }
+    });
+
+    for (int i=0; i<N; i++) {
+      set.add(br.readLine());
+    }
+
+    StringBuilder sb = new StringBuilder();
+    for (String s : set) {
+      sb.append(s).append("\n");
+    }
+
+    System.out.println(sb);
+  }
 }
-		
