@@ -1,44 +1,42 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static StringTokenizer st;
-	static Stack<int[]> stack = new Stack<int[]>();
-	static String[] result;
+  static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  static StringTokenizer st;
+    
+  public static void main(String[] args) throws Exception {
+    int N = Integer.parseInt(br.readLine());
+    int[] answer = new int[N];
 
-	public static void main(String[] args) throws Exception {
-		int n = Integer.parseInt(br.readLine());
-		result = new String[n];
+    int[][] tops = new int[N][2];
+    st = new StringTokenizer(br.readLine());
+    for (int i=N-1; i>=0; i--) {
+      tops[i] = new int[] {Integer.parseInt(st.nextToken()), N-i-1};
+    }
 
-		st = new StringTokenizer(br.readLine());
-		for (int i = 0; i < n; i++) {
-			int current = Integer.parseInt(st.nextToken());
+    Stack<int[]> stack = new Stack<>();
+    for (int[] top : tops) {
+      if (stack.isEmpty()) {
+        stack.push(top);
+      } else {
+        // 레이저 신호 수신 받을 수 있는 경우
+        while(!stack.isEmpty() && stack.peek()[0] <= top[0]) {
+          int[] current = stack.pop();
+          int index = current[1];
 
-			if (stack.size() == 0) {
-				stack.add(new int[] { i + 1, current });
-				result[i] = "0";
-			} else {
-				while (!stack.isEmpty()) {
-					int[] last = stack.get(stack.size() - 1);
+          answer[index] = top[1] + 1;
+        }
 
-					if (last[1] >= current) {
-						result[i] = Integer.toString(last[0]);
-						break;
-					} else {
-						stack.pop();
-					}
-				}
-				stack.add(new int[] { i + 1, current });
-			}
+        stack.push(top);
+      }
+    }
 
-			if (result[i] == null) {
-				result[i] = "0";
-			}
-		}
+    StringBuilder sb = new StringBuilder();
+    for (int n : answer) {
+      sb.append(n).append(" ");
+    }
 
-		System.out.println(String.join(" ", result));
-	}
+    System.out.println(sb);
+  }
 }
