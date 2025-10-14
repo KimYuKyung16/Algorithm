@@ -5,44 +5,48 @@ public class Main {
   static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
   static StringTokenizer st;
   static int N, K;
-  static int answer;
-  static int[] calc = {2,-1,1};
-  static boolean[] visited;
 
   public static void main(String[] args) throws Exception {
     st = new StringTokenizer(br.readLine());
-    N = Integer.parseInt(st.nextToken()); // 수빈이 위치
-    K = Integer.parseInt(st.nextToken()); // 동생 위치
-    visited = new boolean[100001];
+    N = Integer.parseInt(st.nextToken());
+    K = Integer.parseInt(st.nextToken());
 
-    bfs();
+    System.out.println(move());
   }
 
-  public static void bfs() {
-    Queue<int[]> queue = new LinkedList<>();
-    queue.add(new int[] {N, 0});
+  public static int move() {
+    Deque<int[]> deque = new LinkedList<>();
+    int[] visited = new int[100001];
 
-    while(!queue.isEmpty()) {
-      int[] current = queue.poll();
+    for (int i=0; i<visited.length; i++) {
+      visited[i] = Integer.MAX_VALUE;
+    }
+    
+    deque.add(new int[] {N, 0});
+    visited[N] = 0;
+    while(!deque.isEmpty()) {
+      int[] cur = deque.pollFirst();
+      int v = cur[0];
+      int t = cur[1];
 
-      if (current[0] == K) {
-        System.out.println(current[1]);
-        break;
+      if (v == K) {
+        return t;
       }
 
-      for (int i=0; i<3; i++) {
-        if (i == 0) {
-          int calcNum = current[0] * calc[i];
-          if (calcNum >= 100001 || visited[calcNum]) continue;
-          visited[calcNum] = true;
-          queue.add(new int[] {calcNum, current[1]});
-        } else {
-          int calcNum = current[0] + calc[i];
-          if (calcNum >= 100001 || calcNum < 0 || visited[calcNum]) continue;
-          visited[calcNum] = true;
-          queue.add(new int[] {calcNum, current[1]+1});
-        }
+      if (v*2 < 100001 && t < visited[v*2]) {
+        visited[v*2] = t;
+        deque.addFirst(new int[] {v*2, t});
+      }
+      if (v-1 >= 0 && t < visited[v-1]) {
+        visited[v-1] = t;
+        deque.addLast(new int[] {v-1, t+1});
+      }
+      if (v+1 < 100001 && t < visited[v+1]) {
+        visited[v+1] = t;
+        deque.addLast(new int[] {v+1, t+1});
       }
     }
+
+    return 0;
   }
 }
