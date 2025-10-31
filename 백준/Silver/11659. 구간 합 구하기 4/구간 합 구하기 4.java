@@ -1,45 +1,42 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	static BufferedReader br;
-	static StringTokenizer st;
-	static StringBuilder sb;
-	static int[] nums;
-	static int[] sums; // 누적합 구하기용
+  static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  static StringTokenizer st;
+  static int N, M;
+  static int[] nums;
+  static int[] sums;
+  public static void main(String[] args) throws Exception {
+    st = new StringTokenizer(br.readLine());
+    N = Integer.parseInt(st.nextToken());
+    M = Integer.parseInt(st.nextToken());
+    nums = new int[N+1];
+    sums = new int[N+1];
 
-	public static void main(String[] args) throws IOException {
-		br = new BufferedReader(new InputStreamReader(System.in));
-		sb = new StringBuilder();
-		st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
-		nums = new int[n];
-		sums = new int[n + 1];
+    st = new StringTokenizer(br.readLine());
+    for (int i=1; i<=N; i++) {
+      nums[i] = Integer.parseInt(st.nextToken());
+    }
 
-		st = new StringTokenizer(br.readLine());
-		for (int i = 0; i < n; i++) {
-			nums[i] = Integer.parseInt(st.nextToken());
-		}
+    getAllSum();
 
-		for (int i = 0; i < nums.length + 1; i++) {
-			if (i == 0) {
-				sums[0] = 0;
-			} else {
-				sums[i] = sums[i - 1] + nums[i - 1];
-			}
-		}
+    StringBuilder sb = new StringBuilder();
+    for (int i=0; i<M; i++) {
+      st = new StringTokenizer(br.readLine());
+      int s = Integer.parseInt(st.nextToken());
+      int e = Integer.parseInt(st.nextToken());
+      int sum = sums[e] - sums[s-1];
+      sb.append(sum).append('\n');
+    }
 
-		for (int k = 0; k < m; k++) {
-			st = new StringTokenizer(br.readLine());
-			int i = Integer.parseInt(st.nextToken());
-			int j = Integer.parseInt(st.nextToken());
+    System.out.println(sb.toString());
+  }
 
-			sb.append(sums[j] - sums[i - 1] + "\n");
-		}
-
-		System.out.println(sb);
-	}
+  public static void getAllSum() {
+    sums[1] = nums[1];
+    for (int i=2; i<=N; i++) {
+      sums[i] = sums[i-1] + nums[i];
+    }
+  }
 }
