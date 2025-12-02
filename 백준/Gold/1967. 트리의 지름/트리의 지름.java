@@ -40,14 +40,14 @@ public class Main {
   }
 
   public static void findV(int v, int sum) {
+    if (distance < sum) {
+      v1 = v;
+      distance = sum;
+    }
+
     for (Node n : tree.get(v)) {
       if (visited[n.v]) continue;
-
       visited[n.v] = true;
-      if (distance < sum+n.c) {
-        v1 = n.v;
-        distance = sum+n.c;
-      }
       findV(n.v, sum+n.c);
       visited[n.v] = false;
     }
